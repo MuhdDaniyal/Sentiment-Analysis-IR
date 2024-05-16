@@ -2,4 +2,8 @@ pandas
 numpy
 keras
 nltk
+tensorflow
+Flask
+matplotlib
+scikit-learn
 -e .
