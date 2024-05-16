@@ -1,14 +1,9 @@
-# app.py
-
-from flask import Flask, render_template, request
+import streamlit as st
 from keras.models import load_model
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 import numpy as np
 from data_utils import train_texts
-
-app = Flask(__name__)
-app.debug = True  # Enable debug mode
 
 # Load the trained sentiment analysis model
 model = load_model('sentiment_analysis_model.h5')
@@ -29,18 +24,19 @@ def predict_sentiment(review):
     else:
         return 'Negative'
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+def main():
+    st.title('Sentiment Analysis App')
 
-@app.route('/analyze', methods=['POST'])
-def analyze():
-    try:
-        review = request.form['review']
-        sentiment = predict_sentiment(review)
-        return render_template('result.html', sentiment=sentiment, review=review)
-    except Exception as e:
-        return render_template('error.html', error=str(e))
+    # User input
+    review = st.text_area('Enter your review here:', '')
+
+    # Predict sentiment on button click
+    if st.button('Analyze'):
+        if review.strip() == '':
+            st.error('Please enter a review.')
+        else:
+            sentiment = predict_sentiment(review)
+            st.write('Sentiment:', sentiment)
 
 if __name__ == '__main__':
-    app.run()
+    main()
