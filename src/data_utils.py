@@ -4,7 +4,7 @@ import os
 train_texts = []
 
 # Assuming you have text files in a directory named 'train'
-train_dir = 'train'
+train_dir = './train'
 for category in ['neg', 'pos']:
     category_dir = os.path.join(train_dir, category)
     for filename in os.listdir(category_dir):
